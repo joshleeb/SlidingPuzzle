@@ -1,13 +1,15 @@
 #pragma once
 
-#include <vector>
+#include <exception>
 #include <memory>
 #include <tuple>
+#include <vector>
 
 #define BLANK 0
 
 class state {
     std::vector<int> board;
+    int board_width;
 
     public:
     int gcost, hcost;
@@ -24,4 +26,5 @@ class state {
     std::tuple<int, int> get_location(const int value);
 
     int get_fcost();
+    int get_board_width();
 };
