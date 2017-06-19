@@ -13,12 +13,15 @@ include_directories(include)
 # Find main sources in `src` directory.
 file(GLOB_RECURSE SOURCES src/*.cc src/*.h)
 
+# Add library for the source files.
+add_library(src ${SOURCES})
+
 # Load Boost libraries.
 find_package(Boost COMPONENTS program_options)
 
 # Create executable and link libraries.
-add_executable(solver src/main.cc ${SOURCES})
-target_link_libraries(solver ${Boost_LIBRARIES})
+add_executable(solver src/main.cc)
+target_link_libraries(solver src ${Boost_LIBRARIES})
 
 ##############################################################################
 # Valgrind
@@ -39,14 +42,13 @@ endif()
 file(GLOB_RECURSE TESTS tests/*.cc)
 
 # Add libraries for source files and the catch header.
-add_library(lib ${SOURCES})
 add_library(Catch INTERFACE)
 target_include_directories(Catch INTERFACE include/catch)
 
 # Create executable for testing and link libraries.
-add_executable(solver-test tests/test_main.cc ${TESTS})
-target_link_libraries(solver-test Catch lib)
+add_executable(test-solver tests/test_main.cc ${TESTS})
+target_link_libraries(test-solver Catch src)
 
 # Enable testing and add test command.
 enable_testing()
-add_test(NAME tests COMMAND solver-test)
+add_test(NAME tests COMMAND test-solver)
