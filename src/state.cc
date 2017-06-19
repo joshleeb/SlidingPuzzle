@@ -13,11 +13,17 @@ state::state(std::vector<int> board) {
     this->board_width = (int) std::sqrt(board.size());
 
     if (board.size() <= 4) {
-        throw std::invalid_argument("Board is too small");
+        throw std::invalid_argument("board is too small");
     }
     if (std::pow(this->board_width, 2) != board.size()) {
-        throw std::invalid_argument("Board is not a square");
+        throw std::invalid_argument("board is not a square");
     }
+    if (std::find(board.begin(), board.end(), 0) == board.end()) {
+        throw std::invalid_argument("board doesn't contain a blank space");
+    }
+
+    this->gcost = std::numeric_limits<int>::max();
+    this->hcost = std::numeric_limits<int>::max();
 }
 
 bool state::operator ==(const state &s) {
