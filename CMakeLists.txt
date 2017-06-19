@@ -16,5 +16,5 @@ target_link_libraries(solver ${Boost_LIBRARIES})
 find_program(VALGRIND valgrind)
 if(VALGRIND)
     add_custom_target(valgrind
-        CMMAND "${VALGRIND}" --tool=memcheck --leak-check=yes $<TARGET_FILE:solver>)
+        COMMAND "${VALGRIND}" --tool=memcheck --leak-check=yes $<TARGET_FILE:solver>)
 endif()
