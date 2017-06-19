@@ -92,3 +92,7 @@ int state::get_fcost() {
 int state::get_board_width() {
     return this->board_width;
 }
+
+std::vector<int> state::get_board() {
+    return this->board;
+}

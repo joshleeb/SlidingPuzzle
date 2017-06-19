@@ -23,9 +23,11 @@ class state {
     void move_square(int square);
     std::vector<int> get_possible_moves();
 
+    int get_fcost();
+
     int get_index(const int value);
     std::tuple<int, int> get_location(const int value);
 
-    int get_fcost();
     int get_board_width();
+    std::vector<int> get_board();
 };
