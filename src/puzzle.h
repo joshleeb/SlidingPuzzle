@@ -7,7 +7,7 @@
 
 #define MOVEMENT_COST 1
 
-typedef int (*puzzle_heuristic)(state &s1, state &s2);
+typedef int (*astar_heuristic)(state &s1, state &s2);
 
 class puzzle {
     std::shared_ptr<state> init;
@@ -23,7 +23,7 @@ class puzzle {
     puzzle(std::shared_ptr<state> init, std::shared_ptr<state> goal);
 
     bool is_solvable();
-    std::deque<state> solve(puzzle_heuristic heuristic);
+    std::deque<state> solve(astar_heuristic h);
 
     int get_expanded_nodes();
 };

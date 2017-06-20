@@ -20,6 +20,8 @@ class state {
 
     bool operator ==(const state &s);
 
+    int count_inversions();
+
     void move_square(int square);
     std::vector<int> get_possible_moves();
 

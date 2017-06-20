@@ -9,6 +9,9 @@
 
 #include "state.h"
 
+
+// A board is represented as a vector such as vector(1, 2, 3, 4) represents the board where the top
+// row is (1, 2) and the bottom row is (3, 4).
 state::state(std::vector<int> board) {
     this->board = board;
     this->board_width = (int) std::sqrt(board.size());
@@ -29,6 +32,19 @@ state::state(std::vector<int> board) {
 
 bool state::operator ==(const state &s) {
     return this->board == s.board;
+}
+
+int state::count_inversions() {
+    int inversions = 0;
+    for (size_t i = 0; i < this->board.size(); i++) {
+        for (size_t j = i + 1; j < this->board.size(); j++) {
+            if (this->get_index(i) > this->get_index(j)) {
+                inversions++;
+            }
+        }
+    }
+
+    return inversions;
 }
 
 void state::move_square(int square) {
@@ -79,8 +95,8 @@ std::tuple<int, int> state::get_location(const int value) {
     auto index = this->get_index(value);
 
     return std::make_tuple(
-        std::floor(index / this->board_width),  // x
-        index % this->board_width               // y
+        index % this->board_width,  // x-coordinate
+        std::floor(index / this->board_width)   // y-coordinate
     );
 }
 

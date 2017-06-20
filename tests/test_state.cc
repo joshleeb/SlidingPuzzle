@@ -16,6 +16,8 @@ SCENARIO("setting up state", "[state]") {
         auto board = DEFAULT_BOARD;
 
         THEN("should setup a new state") {
+            REQUIRE_NOTHROW(state(board));
+
             state new_state(board);
 
             REQUIRE(new_state.gcost == std::numeric_limits<int>::max());
@@ -61,11 +63,29 @@ SCENARIO("comparing equality of states", "[state]") {
     }
 
     GIVEN("states with unequal boards") {
-        THEN("not equal") {
+        THEN("should not be equal") {
             state state_a(std::vector<int> {1, 2, 3, 4, 5, 6, 7, 8, 0});
             state state_b(std::vector<int> {0, 8, 7, 6, 5, 4, 3, 2, 1});
 
             REQUIRE_FALSE(state_a == state_b);
+        }
+    }
+}
+
+SCENARIO("counting inversions", "[state]") {
+    GIVEN("a state with no inversions") {
+        state new_state(std::vector<int> {0, 1, 2, 3, 4, 5, 6, 7, 8});
+
+        THEN("should return 0") {
+            REQUIRE(new_state.count_inversions() == 0);
+        }
+    }
+
+    GIVEN("a state with inversions") {
+        state new_state(std::vector<int> {0, 2, 3, 1, 4, 5, 6, 7, 8});
+
+        THEN("should return number of inversions") {
+            REQUIRE(new_state.count_inversions() == 2);
         }
     }
 }
@@ -172,14 +192,11 @@ SCENARIO("getting location of square", "[state]") {
         THEN("should return location of the square") {
             int square = 0;
 
-            for (int x = 0; x < new_state.get_board_width(); x++) {
-                for (int y = 0; y < new_state.get_board_width(); y++) {
-                    std::tuple<int, int> expected_location {x, y};
-                    REQUIRE(new_state.get_location(square) == expected_location);
+            std::tuple<int, int> expected_location_a {0, 1};
+            REQUIRE(new_state.get_location(3) == expected_location_a);
 
-                    square++;
-                }
-            }
+            std::tuple<int, int> expected_location_b {1, 1};
+            REQUIRE(new_state.get_location(4) == expected_location_b);
         }
     }
 }
@@ -206,7 +223,7 @@ SCENARIO("getting board", "[state]") {
     }
 }
 
-SCENARIO("getting states with minimum and maximum f cost") {
+SCENARIO("getting states with minimum and maximum f cost", "[state]") {
     GIVEN("states with various costs") {
         state state_a(std::vector<int> {0, 1, 2, 3, 4, 5, 6, 7, 8});
         state state_b(std::vector<int> {1, 0, 2, 3, 4, 5, 6, 7, 8});
