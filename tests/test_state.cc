@@ -1,4 +1,6 @@
 #include <cmath>
+#include <memory>
+#include <set>
 #include <stdexcept>
 #include <tuple>
 #include <vector>
@@ -200,6 +202,34 @@ SCENARIO("getting board", "[state]") {
         THEN("should return the board") {
             auto expected_board = DEFAULT_BOARD;
             REQUIRE(new_state.get_board() == expected_board);
+        }
+    }
+}
+
+SCENARIO("getting states with minimum and maximum f cost") {
+    GIVEN("states with various costs") {
+        state state_a(std::vector<int> {0, 1, 2, 3, 4, 5, 6, 7, 8});
+        state state_b(std::vector<int> {1, 0, 2, 3, 4, 5, 6, 7, 8});
+        state state_c(std::vector<int> {1, 2, 0, 3, 4, 5, 6, 7, 8});
+
+        state_a.gcost = 1; state_a.hcost = 4;
+        state_b.gcost = 7; state_b.hcost = 2;
+        state_c.gcost = 1; state_c.hcost = 2;
+
+        WHEN("using set with f cost comparitor") {
+            std::set<std::shared_ptr<state>, fcost_state_ptr_cmp> states_set {
+                std::make_shared<state>(state_a),
+                std::make_shared<state>(state_b),
+                std::make_shared<state>(state_c)
+            };
+
+            THEN("should begin with min f cost state") {
+                REQUIRE(state_c == **states_set.begin());
+            }
+
+            THEN("should end with max f cost state") {
+                REQUIRE(state_b == **states_set.rbegin());
+            }
         }
     }
 }

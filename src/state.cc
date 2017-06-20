@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iterator>
 #include <memory>
+#include <set>
 #include <stdexcept>
 #include <tuple>
 #include <vector>
@@ -95,4 +96,8 @@ int state::get_board_width() {
 
 std::vector<int> state::get_board() {
     return this->board;
+}
+
+bool fcost_state_ptr_cmp::operator()(std::shared_ptr<state> left, std::shared_ptr<state> right) {
+    return left->get_fcost() < right->get_fcost();
 }

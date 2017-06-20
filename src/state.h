@@ -1,8 +1,8 @@
 #pragma once
 
 #include <exception>
-#include <limits>
 #include <memory>
+#include <set>
 #include <tuple>
 #include <vector>
 
@@ -30,4 +30,8 @@ class state {
 
     int get_board_width();
     std::vector<int> get_board();
+};
+
+struct fcost_state_ptr_cmp {
+    bool operator()(std::shared_ptr<state> left, std::shared_ptr<state> right);
 };
