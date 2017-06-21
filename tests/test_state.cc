@@ -22,7 +22,7 @@ SCENARIO("setting up state", "[state]") {
 
             REQUIRE(new_state.gcost == std::numeric_limits<int>::max());
             REQUIRE(new_state.hcost == std::numeric_limits<int>::max());
-            REQUIRE(new_state.parent == nullptr);
+            REQUIRE(new_state.parent_move == -1);
             REQUIRE(new_state.get_board_width() == 3);
         }
     }
@@ -68,6 +68,26 @@ SCENARIO("comparing equality of states", "[state]") {
             state state_b(std::vector<int> {0, 8, 7, 6, 5, 4, 3, 2, 1});
 
             REQUIRE_FALSE(state_a == state_b);
+        }
+    }
+}
+
+SCENARIO("comparing inequality of states", "[state]") {
+    GIVEN("states with equal boards") {
+        THEN("should be equal") {
+            state state_a(DEFAULT_BOARD);
+            state state_b(DEFAULT_BOARD);
+
+            REQUIRE_FALSE(state_a != state_b);
+        }
+    }
+
+    GIVEN("states with unequal boards") {
+        THEN("should not be equal") {
+            state state_a(std::vector<int> {1, 2, 3, 4, 5, 6, 7, 8, 0});
+            state state_b(std::vector<int> {0, 8, 7, 6, 5, 4, 3, 2, 1});
+
+            REQUIRE(state_a != state_b);
         }
     }
 }

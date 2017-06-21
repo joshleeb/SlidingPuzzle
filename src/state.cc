@@ -28,10 +28,17 @@ state::state(std::vector<int> board) {
 
     this->gcost = std::numeric_limits<int>::max();
     this->hcost = std::numeric_limits<int>::max();
+
+    this->parent_move = -1;
+    this->parent = nullptr;
 }
 
 bool state::operator ==(const state &s) {
     return this->board == s.board;
+}
+
+bool state::operator !=(const state &s) {
+    return this->board != s.board;
 }
 
 int state::count_inversions() {

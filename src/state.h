@@ -14,11 +14,14 @@ class state {
 
     public:
     int gcost, hcost;
+
+    int parent_move;
     std::shared_ptr<state> parent;
 
     state(std::vector<int> board);
 
     bool operator ==(const state &s);
+    bool operator !=(const state &s);
 
     int count_inversions();
 

@@ -17,13 +17,13 @@ class puzzle {
     int expanded_nodes;
 
     // Construct the path from the A* search tree.
-    std::deque<state> construct_path();
+    std::deque<int> construct_path();
 
     public:
     puzzle(std::shared_ptr<state> init, std::shared_ptr<state> goal);
 
     bool is_solvable();
-    std::deque<state> solve(astar_heuristic h);
+    std::deque<int> solve(astar_heuristic heuristic);
 
     int get_expanded_nodes();
 };
