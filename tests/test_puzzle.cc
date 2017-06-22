@@ -119,6 +119,36 @@ SCENARIO("checking solvability", "[puzzle]") {
 }
 
 SCENARIO("solving the puzzle", "[puzzle]") {
+    GIVEN("a puzzle") {
+        state init_state(std::vector<int>{1, 2, 3, 4, 0, 5, 6, 7, 8});
+        state goal_state(std::vector<int>{1, 2, 3, 4, 5, 6, 7, 8, 0});
+        puzzle new_puzzle(
+            std::make_shared<state>(init_state), std::make_shared<state>(goal_state));
+
+        THEN("should return moves from init to goal") {
+            auto moves = new_puzzle.solve(heuristic::manhattan);
+
+            CHECK(init_state != goal_state);
+            CHECK_FALSE(moves.empty());
+
+            for (const auto& square : moves) {
+                init_state.move_square(square);
+            }
+            REQUIRE(init_state == goal_state);
+        }
+    }
+
+    GIVEN("a puzzle that is already complete") {
+        puzzle new_puzzle(
+            std::make_shared<state>(state(INIT_BOARD)),
+            std::make_shared<state>(state(INIT_BOARD))
+        );
+
+        THEN("should return no moves") {
+            auto moves = new_puzzle.solve(heuristic::manhattan);
+            REQUIRE(moves.empty());
+        }
+    }
 }
 
 SCENARIO("getting expanded nodes count", "[state]") {

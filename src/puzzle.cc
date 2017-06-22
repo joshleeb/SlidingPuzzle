@@ -4,6 +4,7 @@
 
 #include "puzzle.h"
 
+// TODO: Remove function.
 std::shared_ptr<state> XXXlowest_fcost(std::set<std::shared_ptr<state>> s) {
     std::shared_ptr<state> min_state = *s.begin();
     int min_fcost = min_state->get_fcost();
@@ -16,6 +17,7 @@ std::shared_ptr<state> XXXlowest_fcost(std::set<std::shared_ptr<state>> s) {
     return min_state;
 }
 
+// TODO: Remove function.
 std::shared_ptr<state> XXXfind_in_set(std::shared_ptr<state>f, std::set<std::shared_ptr<state>> s) {
     for (const auto& st : s) {
         if (*st == *f) return f;
@@ -45,6 +47,7 @@ bool puzzle::is_solvable() {
     return row_from_bottom % 2 == 0 != inversions % 2 == 0;
 }
 
+// TODO: Clean up.
 std::deque<int> puzzle::solve(astar_heuristic heuristic) {
     std::shared_ptr<state> focus, next_focus;
     std::set<std::shared_ptr<state>> closed_states, open_states;
