@@ -243,8 +243,8 @@ SCENARIO("getting board", "[state]") {
     }
 }
 
-SCENARIO("getting states with minimum and maximum f cost", "[state]") {
-    GIVEN("states with various costs") {
+SCENARIO("find state in set", "[state]") {
+    GIVEN("a set of states") {
         state state_a(std::vector<int> {0, 1, 2, 3, 4, 5, 6, 7, 8});
         state state_b(std::vector<int> {1, 0, 2, 3, 4, 5, 6, 7, 8});
         state state_c(std::vector<int> {1, 2, 0, 3, 4, 5, 6, 7, 8});
@@ -253,19 +253,23 @@ SCENARIO("getting states with minimum and maximum f cost", "[state]") {
         state_b.gcost = 7; state_b.hcost = 2;
         state_c.gcost = 1; state_c.hcost = 2;
 
-        WHEN("using set with f cost comparitor") {
-            std::set<std::shared_ptr<state>, fcost_state_ptr_cmp> states_set {
-                std::make_shared<state>(state_a),
-                std::make_shared<state>(state_b),
-                std::make_shared<state>(state_c)
-            };
+        std::set<std::shared_ptr<state>> state_set {
+            std::make_shared<state>(state_a), std::make_shared<state>(state_b)
+        };
 
-            THEN("should begin with min f cost state") {
-                REQUIRE(state_c == **states_set.begin());
+        WHEN("finding a state that exists") {
+            auto found_state = find_state(std::make_shared<state>(state_a), state_set);
+
+            THEN("should return that state") {
+                REQUIRE(*found_state == state_a);
             }
+        }
 
-            THEN("should end with max f cost state") {
-                REQUIRE(state_b == **states_set.rbegin());
+        WHEN("finding a state that doesn't exists") {
+            auto found_state = find_state(std::make_shared<state>(state_c), state_set);
+
+            THEN("should return a nullptr") {
+                REQUIRE(found_state == nullptr);
             }
         }
     }

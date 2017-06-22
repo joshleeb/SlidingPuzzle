@@ -121,6 +121,23 @@ std::vector<int> state::get_board() {
     return this->board;
 }
 
-bool fcost_state_ptr_cmp::operator()(std::shared_ptr<state> left, std::shared_ptr<state> right) {
-    return left->get_fcost() < right->get_fcost();
+std::shared_ptr<state> get_lowest_fcost_state(std::set<std::shared_ptr<state>> state_set) {
+    std::shared_ptr<state> min_state = *state_set.begin();
+    int min_fcost = min_state->get_fcost();
+
+    for (const auto& focus : state_set) {
+        if (focus->get_fcost() < min_fcost) {
+            min_state = focus; min_fcost = focus->get_fcost();
+        }
+    }
+    return min_state;
+}
+
+std::shared_ptr<state> find_state(
+    std::shared_ptr<state> focus, std::set<std::shared_ptr<state>> state_set
+) {
+    for (const auto& item : state_set) {
+        if (*item == *focus) return focus;
+    }
+    return nullptr;
 }

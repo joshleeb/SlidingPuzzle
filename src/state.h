@@ -37,6 +37,6 @@ class state {
     std::vector<int> get_board();
 };
 
-struct fcost_state_ptr_cmp {
-    bool operator()(std::shared_ptr<state> left, std::shared_ptr<state> right);
-};
+std::shared_ptr<state>get_lowest_fcost_state(std::set<std::shared_ptr<state>> state_set);
+std::shared_ptr<state>find_state(
+    std::shared_ptr<state> focus, std::set<std::shared_ptr<state>> state_set);

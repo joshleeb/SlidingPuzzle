@@ -151,7 +151,7 @@ SCENARIO("solving the puzzle", "[puzzle]") {
     }
 }
 
-SCENARIO("getting expanded nodes count", "[state]") {
+SCENARIO("getting expanded nodes count", "[puzzle]") {
     GIVEN("a puzzle") {
         puzzle new_puzzle(
             std::make_shared<state>(state(INIT_BOARD)),
@@ -160,6 +160,31 @@ SCENARIO("getting expanded nodes count", "[state]") {
 
         THEN("should return the expanded nodes count") {
             REQUIRE(new_puzzle.get_expanded_nodes() == 0);
+        }
+    }
+}
+
+SCENARIO("get state with lowest f cost in set", "[state]") {
+}
+
+SCENARIO("getting state with minimum f cost", "[state]") {
+    GIVEN("states with various costs") {
+        state state_a(std::vector<int> {0, 1, 2, 3, 4, 5, 6, 7, 8});
+        state state_b(std::vector<int> {1, 0, 2, 3, 4, 5, 6, 7, 8});
+        state state_c(std::vector<int> {1, 2, 0, 3, 4, 5, 6, 7, 8});
+
+        state_a.gcost = 1; state_a.hcost = 4;
+        state_b.gcost = 7; state_b.hcost = 2;
+        state_c.gcost = 1; state_c.hcost = 2;
+
+        std::set<std::shared_ptr<state>> state_set {
+            std::make_shared<state>(state_a),
+            std::make_shared<state>(state_b),
+            std::make_shared<state>(state_c)
+        };
+
+        THEN("should return state with lowest f cost") {
+            REQUIRE(state_c == *get_lowest_fcost_state(state_set));
         }
     }
 }

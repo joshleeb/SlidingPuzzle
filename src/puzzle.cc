@@ -4,27 +4,6 @@
 
 #include "puzzle.h"
 
-// TODO: Remove function.
-std::shared_ptr<state> XXXlowest_fcost(std::set<std::shared_ptr<state>> s) {
-    std::shared_ptr<state> min_state = *s.begin();
-    int min_fcost = min_state->get_fcost();
-
-    for (const auto& st : s) {
-        if (st->get_fcost() < min_fcost) {
-            min_state = st; min_fcost = st->get_fcost();
-        }
-    }
-    return min_state;
-}
-
-// TODO: Remove function.
-std::shared_ptr<state> XXXfind_in_set(std::shared_ptr<state>f, std::set<std::shared_ptr<state>> s) {
-    for (const auto& st : s) {
-        if (*st == *f) return f;
-    }
-    return nullptr;
-}
-
 puzzle::puzzle(std::shared_ptr<state> init, std::shared_ptr<state> goal) {
     this->init = init;
     this->goal = goal;
@@ -47,10 +26,9 @@ bool puzzle::is_solvable() {
     return row_from_bottom % 2 == 0 != inversions % 2 == 0;
 }
 
-// TODO: Clean up.
 std::deque<int> puzzle::solve(astar_heuristic heuristic) {
     std::shared_ptr<state> focus, next_focus;
-    std::set<std::shared_ptr<state>> closed_states, open_states;
+    std::set<std::shared_ptr<state>> open_states, closed_states;
     std::vector<int> moves;
     int prospective_gcost;
 
@@ -61,11 +39,10 @@ std::deque<int> puzzle::solve(astar_heuristic heuristic) {
     open_states.insert(this->init);
 
     while (!open_states.empty()) {
-        focus = XXXlowest_fcost(open_states);
-
+        focus = get_lowest_fcost_state(open_states);
         if (*focus == *this->goal) {
             this->goal->parent_move = focus->parent_move;
-            this->goal->parent = focus->parent;;
+            this->goal->parent = focus->parent;
             break;
         }
 
@@ -77,16 +54,18 @@ std::deque<int> puzzle::solve(astar_heuristic heuristic) {
             next_focus = std::make_shared<state>(*focus);
             next_focus->move_square(square);
 
-            if (XXXfind_in_set(next_focus, closed_states)) continue;
-            if (!XXXfind_in_set(next_focus, open_states)) open_states.insert(next_focus);
+            if (find_state(next_focus, closed_states)) continue;
+            if (!find_state(next_focus, open_states)) {
+                open_states.insert(next_focus);
+            }
 
             prospective_gcost = focus->gcost + MOVEMENT_COST;
             if (prospective_gcost < next_focus->gcost) continue;
 
-            next_focus->parent_move = square;
-            next_focus->parent = focus;
             next_focus->gcost = prospective_gcost;
             next_focus->hcost = heuristic(*next_focus, *this->goal);
+            next_focus->parent = focus;
+            next_focus->parent_move = square;
         }
     }
     return this->construct_path();
