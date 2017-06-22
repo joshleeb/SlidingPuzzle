@@ -9,6 +9,10 @@
 
 typedef int (*astar_heuristic)(state &s1, state &s2);
 
+namespace heuristic {
+    int manhattan(state &s1, state &s2);
+}
+
 class puzzle {
     std::shared_ptr<state> init;
     std::shared_ptr<state> goal;
