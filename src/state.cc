@@ -95,19 +95,31 @@ std::vector<int> state::get_possible_moves() {
 void state::display() {
     int index = 0;
 
-    std::cout << "+---+---+---+\n";
+    for (int i = 0; i < this->get_board_width(); i++) {
+        std::cout << "+---";
+    }
+    std::cout << "+\n";
+
     for (int i = 0; i < this->get_board_width(); i++) {
         std::cout << "|";
         for (int j = 0; j < this->get_board_width(); j++) {
             if (this->board[index] == 0) {
                 std::cout << "   |";
             } else {
-                std::cout << " " << this->board[index] << " |";
+                if (this->board[index] < 10) {
+                    std::cout << " ";
+                }
+                std::cout << this->board[index] << " |";
             }
 
             index++;
         }
-        std::cout << "\n+---+---+---+\n";
+
+        std::cout << "\n";
+        for (int i = 0; i < this->get_board_width(); i++) {
+            std::cout << "+---";
+        }
+        std::cout << "+\n";
     }
 }
 
