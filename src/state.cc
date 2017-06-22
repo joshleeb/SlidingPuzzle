@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -89,6 +90,25 @@ std::vector<int> state::get_possible_moves() {
     }
 
     return moves;
+}
+
+void state::display() {
+    int index = 0;
+
+    std::cout << "+---+---+---+\n";
+    for (int i = 0; i < this->get_board_width(); i++) {
+        std::cout << "|";
+        for (int j = 0; j < this->get_board_width(); j++) {
+            if (this->board[index] == 0) {
+                std::cout << "   |";
+            } else {
+                std::cout << " " << this->board[index] << " |";
+            }
+
+            index++;
+        }
+        std::cout << "\n+---+---+---+\n";
+    }
 }
 
 int state::get_index(const int value) {

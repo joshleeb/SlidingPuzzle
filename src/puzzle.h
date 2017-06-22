@@ -29,5 +29,8 @@ class puzzle {
     bool is_solvable();
     std::deque<int> solve(astar_heuristic heuristic);
 
+    void display_path(std::deque<int> moves, bool is_verbose);
+    void display_stats(std::deque<int> moves);
+
     int get_expanded_nodes();
 };

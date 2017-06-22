@@ -6,7 +6,7 @@
 #include "puzzle.h"
 #include "state.h"
 
-int main(int argc, char *argv[]) {
+int run_solver(options opts) {
     auto init_board = interface::read_board(std::cin);
     auto goal_board = interface::create_goal_board(init_board);
 
@@ -17,10 +17,13 @@ int main(int argc, char *argv[]) {
 
     auto moves = sliding_puzzle.solve(heuristic::manhattan);
 
-    for (const auto square : moves) {
-        std::cout << square << " ";
-    }
-    std::cout << "\n";
+    sliding_puzzle.display_path(moves, opts.verbose);
+    if (opts.stats) sliding_puzzle.display_stats(moves);
 
     return EXIT_SUCCESS;
+}
+
+int main(int argc, char *argv[]) {
+    auto opts = interface::process_cli(argc, argv);
+    return run_solver(opts);
 }

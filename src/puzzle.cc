@@ -1,4 +1,5 @@
 #include <deque>
+#include <iostream>
 #include <memory>
 #include <set>
 
@@ -51,6 +52,8 @@ std::deque<int> puzzle::solve(astar_heuristic heuristic) {
 
         moves = focus->get_possible_moves();
         for (const auto square : moves) {
+            this->expanded_nodes++;
+
             next_focus = std::make_shared<state>(*focus);
             next_focus->move_square(square);
 
@@ -84,4 +87,26 @@ std::deque<int> puzzle::construct_path() {
         focus = focus->parent;
     }
     return search_path;
+}
+
+void puzzle::display_path(std::deque<int> moves, bool is_verbose) {
+    state focus = *this->init;
+
+    if (is_verbose) focus.display();
+
+    for (const auto &square : moves) {
+        focus.move_square(square);
+
+        if (is_verbose) {
+            focus.display();
+        } else {
+            std::cout << square << " ";
+        }
+    }
+    std::cout << "\n";
+}
+
+void puzzle::display_stats(std::deque<int> moves) {
+    std::cout << "Moves: " << moves.size() << "\n";
+    std::cout << "Expanded: " << this->expanded_nodes << "\n";
 }

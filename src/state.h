@@ -28,6 +28,8 @@ class state {
     void move_square(int square);
     std::vector<int> get_possible_moves();
 
+    void display();
+
     int get_fcost();
 
     int get_index(const int value);

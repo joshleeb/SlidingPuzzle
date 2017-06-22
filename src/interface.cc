@@ -1,10 +1,46 @@
-#include <istream>
+#include <iostream>
 #include <vector>
 #include <string>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/program_options.hpp>
 
 #include "interface.h"
+
+const char* desc_text =
+    "solver [OPTIONS...]\n"
+    "Sliding puzzle solver.\n\n"
+    "OPTIONS";
+
+options::options(bool stats, bool verbose) {
+    this->stats = stats;
+    this->verbose = verbose;
+}
+
+options interface::process_cli(int argc, char* argv[]) {
+    po::variables_map vm;
+    po::options_description desc(desc_text);
+
+    desc.add_options()
+        ("help,h", po::bool_switch()->default_value(false), "Show this help")
+        ("stats,s", po::bool_switch()->default_value(false), "Show search statistics")
+        ("verbose,v", po::bool_switch()->default_value(false), "Show each state in solution path")
+    ;
+
+    try {
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+    } catch (std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n\n";
+        exit(EXIT_FAILURE);
+    }
+
+    if (vm["help"].as<bool>()) {
+        std::cout << desc << "\n";
+        exit(EXIT_SUCCESS);
+    }
+    return options(vm["stats"].as<bool>(), vm["verbose"].as<bool>());
+}
 
 std::vector<int> interface::read_board(std::istream& stream) {
     std::vector<int> board {};

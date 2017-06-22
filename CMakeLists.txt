@@ -17,7 +17,7 @@ file(GLOB_RECURSE SOURCES src/*.cc src/*.h)
 add_library(src ${SOURCES})
 
 # Load Boost libraries.
-find_package(Boost COMPONENTS program_options)
+find_package(Boost COMPONENTS program_options REQUIRED)
 
 # Create executable and link libraries.
 add_executable(solver src/main.cc)
@@ -47,7 +47,7 @@ target_include_directories(Catch INTERFACE include/catch)
 
 # Create executable for testing and link libraries.
 add_executable(test-solver tests/test_main.cc ${TESTS})
-target_link_libraries(test-solver Catch src)
+target_link_libraries(test-solver Catch src ${Boost_LIBRARIES})
 
 # Enable testing and add test command.
 enable_testing()
