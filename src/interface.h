@@ -6,7 +6,7 @@
 namespace po = boost::program_options;
 
 class options {
-    public:
+public:
     bool stats, verbose;
 
     options(bool stats, bool verbose);

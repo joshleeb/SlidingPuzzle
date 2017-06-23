@@ -12,7 +12,7 @@ class state {
     std::vector<int> board;
     int board_width;
 
-    public:
+public:
     int gcost, hcost;
 
     int parent_move;
@@ -20,8 +20,8 @@ class state {
 
     state(std::vector<int> board);
 
-    bool operator ==(const state &s);
-    bool operator !=(const state &s);
+    bool operator==(const state& s);
+    bool operator!=(const state& s);
 
     int count_inversions();
 
@@ -39,6 +39,7 @@ class state {
     std::vector<int> get_board();
 };
 
-std::shared_ptr<state>get_lowest_fcost_state(std::set<std::shared_ptr<state>> state_set);
-std::shared_ptr<state>find_state(
-    std::shared_ptr<state> focus, std::set<std::shared_ptr<state>> state_set);
+std::shared_ptr<state> get_lowest_fcost_state(
+    std::set<std::shared_ptr<state>> state_set);
+std::shared_ptr<state> find_state(std::shared_ptr<state> focus,
+                                  std::set<std::shared_ptr<state>> state_set);

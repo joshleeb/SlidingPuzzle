@@ -20,7 +20,7 @@ SCENARIO("reading board from stream", "[interface]") {
 
 SCENARIO("creating a goal board", "[interface]") {
     GIVEN("an initial board state") {
-        std::vector<int> init_board {0, 8, 7, 6, 5, 4, 3, 2, 1};
+        std::vector<int> init_board{0, 8, 7, 6, 5, 4, 3, 2, 1};
 
         THEN("should create goal board of the same size") {
             auto goal_board = interface::create_goal_board(init_board);

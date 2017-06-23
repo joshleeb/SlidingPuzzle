@@ -7,10 +7,10 @@
 
 #define MOVEMENT_COST 1
 
-typedef int (*astar_heuristic)(state &s1, state &s2);
+typedef int (*astar_heuristic)(state& s1, state& s2);
 
 namespace heuristic {
-    int manhattan(state &s1, state &s2);
+    int manhattan(state& s1, state& s2);
 }
 
 class puzzle {
@@ -23,7 +23,7 @@ class puzzle {
     // Construct the path from the A* search tree.
     std::deque<int> construct_path();
 
-    public:
+public:
     puzzle(std::shared_ptr<state> init, std::shared_ptr<state> goal);
 
     bool is_solvable();

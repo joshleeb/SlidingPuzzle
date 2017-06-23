@@ -10,12 +10,11 @@
 
 #include "state.h"
 
-
-// A board is represented as a vector such as vector(1, 2, 3, 4) represents the board where the top
-// row is (1, 2) and the bottom row is (3, 4).
+// A board is represented as a vector such as vector(1, 2, 3, 4) represents the
+// board where the top row is (1, 2) and the bottom row is (3, 4).
 state::state(std::vector<int> board) {
     this->board = board;
-    this->board_width = (int) std::sqrt(board.size());
+    this->board_width = (int)std::sqrt(board.size());
 
     if (board.size() <= 4) {
         throw std::invalid_argument("board is too small");
@@ -34,11 +33,11 @@ state::state(std::vector<int> board) {
     this->parent = nullptr;
 }
 
-bool state::operator ==(const state &s) {
+bool state::operator==(const state& s) {
     return this->board == s.board;
 }
 
-bool state::operator !=(const state &s) {
+bool state::operator!=(const state& s) {
     return this->board != s.board;
 }
 
@@ -70,7 +69,8 @@ std::vector<int> state::get_possible_moves() {
     int up_index = blank_index + this->board_width;
 
     // Up from blank.
-    if (up_index >= 0 && (size_t) blank_index + this->board_width < this->board.size()) {
+    if (up_index >= 0 &&
+        (size_t)blank_index + this->board_width < this->board.size()) {
         moves.push_back(this->board[blank_index + this->board_width]);
     }
 
@@ -133,10 +133,9 @@ int state::get_index(const int value) {
 std::tuple<int, int> state::get_location(const int value) {
     auto index = this->get_index(value);
 
-    return std::make_tuple(
-        index % this->board_width,  // x-coordinate
-        std::floor(index / this->board_width)   // y-coordinate
-    );
+    // Creates a tuple {X-Coordinate, Y-Coordinate}.
+    return std::make_tuple(index % this->board_width,
+                           std::floor(index / this->board_width));
 }
 
 int state::get_fcost() {
@@ -153,21 +152,22 @@ std::vector<int> state::get_board() {
     return this->board;
 }
 
-std::shared_ptr<state> get_lowest_fcost_state(std::set<std::shared_ptr<state>> state_set) {
+std::shared_ptr<state> get_lowest_fcost_state(
+    std::set<std::shared_ptr<state>> state_set) {
     std::shared_ptr<state> min_state = *state_set.begin();
     int min_fcost = min_state->get_fcost();
 
     for (const auto& focus : state_set) {
         if (focus->get_fcost() < min_fcost) {
-            min_state = focus; min_fcost = focus->get_fcost();
+            min_state = focus;
+            min_fcost = focus->get_fcost();
         }
     }
     return min_state;
 }
 
-std::shared_ptr<state> find_state(
-    std::shared_ptr<state> focus, std::set<std::shared_ptr<state>> state_set
-) {
+std::shared_ptr<state> find_state(std::shared_ptr<state> focus,
+                                  std::set<std::shared_ptr<state>> state_set) {
     for (const auto& item : state_set) {
         if (*item == *focus) return focus;
     }
