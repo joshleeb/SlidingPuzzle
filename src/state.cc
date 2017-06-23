@@ -5,7 +5,7 @@
 #include <memory>
 #include <set>
 #include <stdexcept>
-#include <tuple>
+#include <utility>
 #include <vector>
 
 #include "state.h"
@@ -130,12 +130,12 @@ int state::get_index(const int value) {
     return std::distance(this->board.begin(), it);
 }
 
-std::tuple<int, int> state::get_location(const int value) {
+std::pair<int, int> state::get_location(const int value) {
     auto index = this->get_index(value);
 
-    // Creates a tuple {X-Coordinate, Y-Coordinate}.
-    return std::make_tuple(index % this->board_width,
-                           std::floor(index / this->board_width));
+    // Creates a par {X-Coordinate, Y-Coordinate}.
+    return std::make_pair(index % this->board_width,
+                          std::floor(index / this->board_width));
 }
 
 int state::get_fcost() {

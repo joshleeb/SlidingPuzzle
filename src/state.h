@@ -3,7 +3,7 @@
 #include <exception>
 #include <memory>
 #include <set>
-#include <tuple>
+#include <utility>
 #include <vector>
 
 #define BLANK 0
@@ -33,7 +33,7 @@ public:
     int get_fcost();
 
     int get_index(const int value);
-    std::tuple<int, int> get_location(const int value);
+    std::pair<int, int> get_location(const int value);
 
     int get_board_width();
     std::vector<int> get_board();

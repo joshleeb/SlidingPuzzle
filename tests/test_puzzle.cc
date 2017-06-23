@@ -1,5 +1,5 @@
 #include <memory>
-#include <tuple>
+#include <utility>
 
 #include <catch/catch.hpp>
 
@@ -57,7 +57,7 @@ SCENARIO("checking solvability", "[puzzle]") {
                                    9, 10, 11, 12, 13, 15, 14, 0};
             state new_state(board);
 
-            auto blank_row = std::get<1>(new_state.get_location(BLANK)) + 1;
+            auto blank_row = new_state.get_location(BLANK).second + 1;
             CHECK((new_state.get_board_width() - blank_row) % 2 == 0);
             CHECK(new_state.count_inversions() % 2 == 0);
 
@@ -74,7 +74,7 @@ SCENARIO("checking solvability", "[puzzle]") {
                                    5,  0, 9,  15, 8, 13, 6, 3};
             state new_state(board);
 
-            auto blank_row = std::get<1>(new_state.get_location(BLANK)) + 1;
+            auto blank_row = new_state.get_location(BLANK).second + 1;
             CHECK_FALSE((new_state.get_board_width() - blank_row) % 2 == 0);
             CHECK(new_state.count_inversions() % 2 == 0);
 
@@ -93,7 +93,7 @@ SCENARIO("checking solvability", "[puzzle]") {
                                    9, 10, 11, 12, 13, 14, 15, 0};
             state new_state(board);
 
-            auto blank_row = std::get<1>(new_state.get_location(BLANK)) + 1;
+            auto blank_row = new_state.get_location(BLANK).second + 1;
             CHECK((new_state.get_board_width() - blank_row) % 2 == 0);
             CHECK_FALSE(new_state.count_inversions() % 2 == 0);
 
@@ -110,7 +110,7 @@ SCENARIO("checking solvability", "[puzzle]") {
                                    8, 11, 0, 12, 13, 14, 10, 15};
             state new_state(board);
 
-            auto blank_row = std::get<1>(new_state.get_location(BLANK)) + 1;
+            auto blank_row = new_state.get_location(BLANK).second + 1;
             CHECK_FALSE((new_state.get_board_width() - blank_row) % 2 == 0);
             CHECK_FALSE(new_state.count_inversions() % 2 == 0);
 

@@ -20,8 +20,7 @@ bool puzzle::is_solvable() {
     if (this->init->get_board_width() % 2 != 0) return inversions % 2 == 0;
 
     auto blank_loc = this->init->get_location(BLANK);
-    int row_from_bottom =
-        (this->init->get_board_width() - 1) - std::get<1>(blank_loc);
+    int row_from_bottom = this->init->get_board_width() - 1 - blank_loc.second;
 
     // If the board width is even, then the puzzle solvable if one of the
     // following holds:

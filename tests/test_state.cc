@@ -2,7 +2,7 @@
 #include <memory>
 #include <set>
 #include <stdexcept>
-#include <tuple>
+#include <utility>
 #include <vector>
 
 #include <catch/catch.hpp>
@@ -214,10 +214,10 @@ SCENARIO("getting location of square", "[state]") {
         THEN("should return location of the square") {
             int square = 0;
 
-            std::tuple<int, int> expected_location_a{0, 1};
+            std::pair<int, int> expected_location_a{0, 1};
             REQUIRE(new_state.get_location(3) == expected_location_a);
 
-            std::tuple<int, int> expected_location_b{1, 1};
+            std::pair<int, int> expected_location_b{1, 1};
             REQUIRE(new_state.get_location(4) == expected_location_b);
         }
     }
